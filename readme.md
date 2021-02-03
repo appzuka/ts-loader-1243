@@ -41,3 +41,5 @@ Change the return of f in src/index.ts to a number:
 The bundled code dist/main.js will show the return value as a number now but the dist/index.d.ts still shows the return as a string and the file timestamp shows the file was not updated.
 
 Exit and restart watch mode and dist/index.d.ts will be updated correctly.
+
+If you downgrade to webpack@4.40 it works as expected in watch mode.

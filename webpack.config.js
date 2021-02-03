@@ -1,5 +1,22 @@
 const path = require( 'path' );
 
+class HookTest {
+  apply(compiler) {
+    compiler.hooks.done.tap({ name: 'HookTest' }, () => {
+      console.log('Compiler Hook: done');
+    });
+    compiler.hooks.afterCompile.tap({ name: 'HookTest' }, () => {
+      console.log('Compiler Hook: afterCompile');
+    });
+    compiler.hooks.compilation.tap('ts-loader', (compilation) => {
+      console.log('Compilation Hook');
+      compilation.hooks.afterProcessAssets.tap('ts-loader', (_) => {
+        console.log('Compilation afterProcessAssets Hook');
+      });
+    });
+  }
+};
+
 module.exports = {
 
     // bundling mode
@@ -28,5 +45,9 @@ module.exports = {
                 exclude: /node_modules/,
             }
         ]
-    }
+    },
+
+    plugins: [
+      new HookTest()
+    ]
 };
